@@ -39,7 +39,7 @@ export function ktx2(options: Partial<KTX2Options> = {}): Transform {
 
   return createTransform(NAME, async (document: Document): Promise<void> => {
     // Dynamically import the appropriate encoder
-    const { encodeToKTX2 } = typeof window !== "undefined" 
+    const { encodeToKTX2 } = typeof window !== "undefined"
       ? await import("../web/index.js")
       : await import("../node/index.js");
 
@@ -88,6 +88,7 @@ export function ktx2(options: Partial<KTX2Options> = {}): Transform {
           const srcByteLength = image.byteLength;
 
           // Encode to KTX2
+          // @ts-ignore
           const ktx2Data = await encodeToKTX2(image, {
             ...options,
           });

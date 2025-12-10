@@ -8,3 +8,6 @@ export function encodeToKTX2(imageBuffer: Uint8Array, options: Partial<IEncodeOp
   globalThis.__KTX2_DEBUG__ = options.enableDebug ?? false;
   return nodeEncoder.encode(imageBuffer, options);
 }
+
+const basisEncoder = nodeEncoder;
+export { basisEncoder };

@@ -6,10 +6,15 @@ import BASIS from "../basis/basis_encoder.js";
 let promise: Promise<IBasisModule> | null = null;
 
 class NodeBasisEncoder {
+  basis: IBasisModule;
+
   async init(): Promise<IBasisModule> {
     if (!promise) {
       promise = BASIS().then((basis: IBasisModule) => {
         basis.initializeBasis();
+
+        this.basis = basis;
+
         return basis;
       });
     }
@@ -17,8 +22,10 @@ class NodeBasisEncoder {
   }
 
   async encode(bufferOrBufferArray: Uint8Array | CubeBufferData, options: Partial<IEncodeOptions> = {}) {
+    const now = performance.now();
     const basis = await this.init();
     const encoder = new basis.BasisEncoder();
+    console.log('basis encoder init time', performance.now() - now);
 
     const bufferArray = Array.isArray(bufferOrBufferArray) ? bufferOrBufferArray : [bufferOrBufferArray];
     applyInputOptions(options, encoder);
